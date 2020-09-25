@@ -243,21 +243,21 @@ def num_nbrs_torus(j, k, A, r, c):
 
     num = 0
     #modulo makes the list wrap around like a torus
-    if j > 0 and k > 0 and A[j-1, k-1] == ALIVE:
+    if A[((j-1) % r), ((k-1) % c)] == ALIVE:
            num += 1
     if A[((j-1) % r), k] == ALIVE:
             num += 1
-    if j > 0 and k < c-1 and A[j-1, k+1] == ALIVE:
+    if A[((j-1) % r), ((k+1) % c)] == ALIVE:
             num += 1
     if A[j, ((k-1) % c)] == ALIVE:
             num += 1
     if A[j, ((k+1) % c)] == ALIVE:
             num += 1
-    if j < r-1 and k > 0 and A[j+1, k-1] == ALIVE:
+    if A[((j+1) % r), ((k-1) % c)] == ALIVE:
             num += 1
     if A[((j+1) % r), k] == ALIVE:
             num += 1
-    if j < r-1 and k < c-1 and A[j+1, k+1] == ALIVE:
+    if A[((j+1) % r), ((k+1) % c)] == ALIVE:
             num += 1
     return num
 #############################################
