@@ -208,9 +208,26 @@ error statement:
 """
 
 
-def next_state_torus():
+def next_state_torus(A, r, c):
 
-    raise NotImplementedError()
+    N = np.zeros((r, c), dtype=np.int8)
+    changed = False
+    for j in range(r):
+        for k in range(c):
+            nbrs = num_nbrs2(j, k, A, r, c)
+            if A[j, k] == ALIVE:
+                if nbrs > 1 and nbrs < 4:
+                    N[j, k] = ALIVE
+                else:
+                    N[j, k] = DEAD
+                    changed = True
+            else:
+                if nbrs == 3:
+                    N[j, k] = ALIVE
+                    changed = True
+                else:
+                    N[j, k] = DEAD
+    return N, changed
 #############################################
 
 
@@ -222,9 +239,27 @@ error statement:
 """
 
 
-def num_nbrs_torus():
+def num_nbrs_torus(j, k, A, r, c):
 
-    raise NotImplementedError()
+    num = 0
+    #modulo makes the list wrap around like a torus
+    if j > 0 and k > 0 and A[j-1, k-1] == ALIVE:
+           num += 1
+    if A[((j-1) % r), k] == ALIVE:
+            num += 1
+    if j > 0 and k < c-1 and A[j-1, k+1] == ALIVE:
+            num += 1
+    if A[j, ((k-1) % c)] == ALIVE:
+            num += 1
+    if A[j, ((k+1) % c)] == ALIVE:
+            num += 1
+    if j < r-1 and k > 0 and A[j+1, k-1] == ALIVE:
+            num += 1
+    if A[((j+1) % r), k] == ALIVE:
+            num += 1
+    if j < r-1 and k < c-1 and A[j+1, k+1] == ALIVE:
+            num += 1
+    return num
 #############################################
 
 
