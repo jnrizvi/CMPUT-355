@@ -285,7 +285,7 @@ def interact(max_itn):
     print_array(A, r, c)
     while itn <= max_itn:
         sleep(pause)
-        newA, delta = next_state(A, r, c)
+        newA, delta = next_state_torus(A, r, c)
         if not delta:
             break
         itn += 1
