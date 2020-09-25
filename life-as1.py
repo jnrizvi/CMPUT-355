@@ -214,7 +214,7 @@ def next_state_torus(A, r, c):
     changed = False
     for j in range(r):
         for k in range(c):
-            nbrs = num_nbrs2(j, k, A, r, c)
+            nbrs = num_nbrs_torus(j, k, A, r, c)
             if A[j, k] == ALIVE:
                 if nbrs > 1 and nbrs < 4:
                     N[j, k] = ALIVE
