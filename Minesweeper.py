@@ -110,7 +110,9 @@ if __name__ == "__main__":
         #print(i)
     
     flag = []
-    while True:
+    game = True
+    while game == True:
+        lose = False
         showNum(gridSize,show)
         cmd = input("Enter your value: ").split()
         if len(cmd) == 3:
@@ -163,15 +165,27 @@ if __name__ == "__main__":
                         if state[i][j] == 'F':
                             show[i][j] = 'X'
                 showNum(gridSize,show)
+                lose = True
                 print("Game Over! :(")
-                break
+                #break
             elif state[x][y] == 0:
                 show[x][y] == 0
                 seen = []
                 explore(x,y)
             else:
                 show[x][y] = state[x][y]
-        if (check(gridSize,show,state)):
-            showNum(gridSize,show)
-            print("You Win! :)")
-            break
+        if lose != True:
+            if (check(gridSize,show,state)):
+                 showNum(gridSize,show)
+                 print("You Win! :)")
+                 break
+        else:
+            answer = input("Do you want to play again? Enter 'Y' for yes or 'N' for no./n")
+            if answer == "n":
+                game = False
+            else:
+                state = [[0 for i in range(gridSize)] for x in range(gridSize)] 
+                show = [['-' for i in range(gridSize)] for x in range(gridSize)]    
+
+                setValues(gridSize,minesNum,state)
+                
