@@ -147,7 +147,7 @@ if __name__ == "__main__":
             if show[x][y] != '-':
                 print("The position is already existed, please enter again. ")
                 continue            
-            if ([x,y] not in flag) and len(flag) <= minesNum:
+            if ([x,y] not in flag) and len(flag) < minesNum:
                 flag.append([x,y])
                 show[x][y] = 'F'
         if cmd[2] == 'p':
