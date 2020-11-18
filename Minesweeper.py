@@ -180,12 +180,16 @@ if __name__ == "__main__":
                  print("You Win! :)")
                  break
         else:
-            answer = input("Do you want to play again? Enter 'Y' for yes or 'N' for no./n")
-            if answer == "n":
-                game = False
-            else:
-                state = [[0 for i in range(gridSize)] for x in range(gridSize)] 
-                show = [['-' for i in range(gridSize)] for x in range(gridSize)]    
-
-                setValues(gridSize,minesNum,state)
+            good = False
+            while not good:
+                answer = input("Do you want to play again? Enter 'Y' for yes or 'N' for no.\n")
+                if answer == "N":
+                    game = False
+                    break
+                elif answer == "Y":
+                    gridSize,minesNum = level()
+                    state = [[0 for i in range(gridSize)] for x in range(gridSize)] 
+                    show = [['-' for i in range(gridSize)] for x in range(gridSize)]    
+                    setValues(gridSize,minesNum,state)
+                    break
                 
