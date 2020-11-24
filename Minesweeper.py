@@ -1,5 +1,6 @@
 import random
 
+# choose a difficulty level
 def level():
     while True:
         number = input("Please choose the difficulty level from 1 to 3: ")
@@ -17,7 +18,8 @@ def level():
         else:
             print("Please enter 1 or 2 or 3, please enter again. ")
             continue
-    
+
+# set up mines randomly and set up values of other grids (how many mines in its neighbours)
 def setValues(gridSize,minesNum,state):
     n = 0
     while n < minesNum:
@@ -48,12 +50,14 @@ def setValues(gridSize,minesNum,state):
                 if i<gridSize-1 and j<gridSize-1 and state[i+1][j+1] == 'F':
                     num += 1
                 state[i][j] = num
-                
+
+# show the layout                
 def showNum(gridSize,show):
     print()
     for r in show:
         print("  ".join(str(v) for v in r))      
 
+# use recursion to explore adjacent 0 value neighbours
 def explore(x,y):
     global state
     global show
@@ -83,6 +87,7 @@ def explore(x,y):
         else:
             show[x][y] = state[x][y]
 
+# check if the player win or not
 def check(gridSize,show,state):
     n = 0
     for i in range(gridSize):
@@ -96,6 +101,7 @@ if __name__ == "__main__":
         
     gridSize,minesNum = level()
     
+    # display rules
     print()
     print("Pick position 1 2      1 2 p")
     print("Flag position 2 3      2 3 f")
@@ -109,6 +115,7 @@ if __name__ == "__main__":
     #for i in state:
         #print(i)
     
+    # check the player's input
     flag = []
     game = True
     while game == True:
@@ -139,6 +146,7 @@ if __name__ == "__main__":
         x = cmd[0]-1
         y = cmd[1]-1 
         
+        # if the player flags a position
         if cmd[2] == 'f':
             if [x,y] in flag:
                 print("The position is already flagged, please enter again. ")
@@ -152,12 +160,15 @@ if __name__ == "__main__":
             if ([x,y] not in flag) and len(flag) < minesNum:
                 flag.append([x,y])
                 show[x][y] = 'F'
+                
+        # if the player picks a position
         if cmd[2] == 'p':
             if [x,y] in flag:
                 flag.remove([x,y])
             if show[x][y] != '-' and show[x][y] != 'F':
                 print("The position is already existed, please enter again. ")
-                continue            
+                continue     
+            # if the player lands on a mine, the game is over
             if state[x][y] == 'F':
                 show[x][y] == 'F'
                 for i in range(gridSize):
@@ -168,18 +179,21 @@ if __name__ == "__main__":
                 lose = True
                 print("Game Over! :(")
                 #break
+            # if the player picks a cell with 0 value
             elif state[x][y] == 0:
                 show[x][y] == 0
                 seen = []
                 explore(x,y)
             else:
                 show[x][y] = state[x][y]
+        # display message if the player wins
         if lose != True:
             if (check(gridSize,show,state)):
-                 showNum(gridSize,show)
-                 print("You Win! :)")
-                 break
+                showNum(gridSize,show)
+                print("You Win! :)")
+                break
         else:
+            # ask the player if he/she wants to play again
             good = False
             while not good:
                 answer = input("Do you want to play again? Enter 'Y' for yes or 'N' for no.\n")
