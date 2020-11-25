@@ -36,7 +36,8 @@ class Minesweeper:
         self.frame_grid = Frame(self.tk)
         self.frame_grid.pack()
         self.level()
-        
+
+    # Level selection navbar. Overwrites current game when an option is clicked    
     def level(self):
         ttk.Style().configure('BG.TButton', padding = 6, foreground='black')
         level_1 = ttk.Button(self.frame_level, text="Beginner", style='BG.TButton', command=lambda: self.grid(4,5))
@@ -46,6 +47,7 @@ class Minesweeper:
         level_3 = ttk.Button(self.frame_level, text="Expert", style='BG.TButton', command=lambda: self.grid(16,40))
         level_3.pack(side=LEFT)
     
+    # Create a new grid
     def grid(self, gridSize, minesNum):
         for widget in self.frame_grid.winfo_children():
             widget.destroy()
@@ -172,6 +174,7 @@ class Minesweeper:
     def onRightClick_helper(self, x, y, gridSize):
         return lambda ev: self.onRightClick(x,y, gridSize)
     
+    # Right click to place a flag. The number of flags cannot exceed the number of mines.
     def onRightClick(self, x, y, gridSize):
         pos = str(x)+" "+str(y)
         if self.flag_num != 0 and self.tiles[pos]["isFlag"] == False:
@@ -186,6 +189,7 @@ class Minesweeper:
             self.tiles[pos]["isFlag"] = False
             self.tiles[pos]["button"].bind("<Button-1>", self.onClick_helper(x,y,gridSize))
                 
+    # Returns a list of x y coordinates, used by reveal_nbrs to show revealed tiles.
     def nbrs(self, x, y, gridSize):
         nbrs = []
         if x-1>=0 and y-1>=0:
@@ -206,8 +210,10 @@ class Minesweeper:
             nbrs.append(str(x+1)+" "+str(y+1))
         return nbrs
     
+    # Display number tiles, recursively explore to reveal.
     def reveal_nbrs(self, x, y, gridSize):
         nbrs = self.nbrs(x,y,gridSize)
+        # print(nbrs)
         for i in nbrs:
             if self.tiles[i]["status"] == "clue" and self.tiles[i]["isRevealed"] == False and i not in self.explore:
                 mines_num = self.tiles[i]["mines_num"]
@@ -221,6 +227,8 @@ class Minesweeper:
                 self.explore.append(i)
                 if mines_num == 0:
                     self.reveal_nbrs(self.tiles[i]["x"], self.tiles[i]["y"], gridSize)
+    
+    # Display message box if won
     def win(self):
         if self.remain_tiles == len(self.mines):
             MsgBox = messagebox.askquestion("Game Over", "You Win :)\nDo you want to play again?")
