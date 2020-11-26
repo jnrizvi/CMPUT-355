@@ -10,11 +10,14 @@ def level():
             print("Please enter a number, please enter again. ")
             continue
         if number == 1:
-            return 4,5
+            mn=5
+            return mn,4,5
         elif number == 2:
-            return 8,10
+            mn=10
+            return mn,8,10
         elif number == 3:
-            return 16,40
+            mn=40
+            return mn,16,40
         else:
             print("Please enter 1 or 2 or 3, please enter again. ")
             continue
@@ -53,9 +56,13 @@ def setValues(gridSize,minesNum,state):
 
 # show the layout                
 def showNum(gridSize,show):
+    global flag
+    global mn
     print()
     for r in show:
         print("  ".join(str(v) for v in r))      
+    rf = mn-len(flag)
+    print("Remaining flags: " + str(rf))
 
 # use recursion to explore adjacent 0 value neighbours
 def explore(x,y):
@@ -99,7 +106,7 @@ def check(gridSize,show,state):
 if __name__ == "__main__":
     print("Welcome to Minesweeper\n")
         
-    gridSize,minesNum = level()
+    mn,gridSize,minesNum = level()
     
     # display rules
     print()

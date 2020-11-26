@@ -1,4 +1,9 @@
 #icons from https://github.com/HaikuArchives/Minesweeper
+'''
+Beginner level has 5 mines
+Intermediate level has 10 mines
+Expert level has 40 mines
+'''
 
 from tkinter import *
 from PIL import ImageTk,Image
